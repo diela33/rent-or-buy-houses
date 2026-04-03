@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="logo">🏠 RentOrBuy</div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/calculator">Calculator</a></li>
+    <li><a routerLink="/about">About</a></li>
+    <li><button class="login-btn" routerLink="/login">Login</button></li>
+  </ul>
+
+  <div class="menu-btn" onclick="toggleMenu()">
+    ☰
+  </div>
+</nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    nav.classList.toggle('open');
+  }
+</script>
