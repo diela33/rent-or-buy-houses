@@ -48,6 +48,12 @@ export class RegisterComponent {
           console.error('Registration error', error);
         }
       });
+    } else {
+      this.errorMessage = 'Please fill in all fields correctly.';
+      // Mark all fields as touched to show errors
+      Object.keys(this.registerForm.controls).forEach(key => {
+        this.registerForm.get(key)?.markAsTouched();
+      });
     }
   }
 }

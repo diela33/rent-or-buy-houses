@@ -1,11 +1,13 @@
 <nav class="navbar">
-  <div class="logo">🏠 RentOrBuy</div>
+  <a routerLink="/" class="logo">RentOrBuy</a>
 
   <ul class="nav-links" id="navLinks">
     <li><a routerLink="/">Home</a></li>
     <li><a routerLink="/calculator">Calculator</a></li>
     <li><a routerLink="/about">About</a></li>
-    <li><button class="login-btn" routerLink="/login">Login</button></li>
+    <li class="auth-buttons-mobile">
+      <button class="login-btn" routerLink="/login">Login</button>
+    </li>
   </ul>
 
   <div class="menu-btn" onclick="toggleMenu()">

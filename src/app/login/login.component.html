@@ -17,8 +17,13 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
 
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   </form>
+
+  <div class="register-section">
+    <p class="or-text">or</p>
+    <button class="btn btn-secondary" routerLink="/register">Create Account</button>
+  </div>
 </div>
