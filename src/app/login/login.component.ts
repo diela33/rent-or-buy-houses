@@ -17,15 +17,15 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
+      const { username, password } = this.loginForm.value;
+      this.authService.login(username, password).subscribe({
         next: (response) => {
           console.log('Login successful', response);
           // Handle successful login (e.g., navigate to dashboard)

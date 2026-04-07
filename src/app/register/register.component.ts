@@ -17,18 +17,19 @@ export class RegisterComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
+      rePassword: ['', [Validators.required]],
+      tel: ['']
     }, { validators: this.passwordMatchValidator });
   }
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');
-    const confirmPassword = form.get('confirmPassword');
-    if (password && confirmPassword && password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ mismatch: true });
+    const rePassword = form.get('rePassword');
+    if (password && rePassword && password.value !== rePassword.value) {
+      rePassword.setErrors({ mismatch: true });
       return { mismatch: true };
     }
     return null;
@@ -36,8 +37,8 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      const { name, email, password } = this.registerForm.value;
-      this.authService.register(email, password, name).subscribe({
+      const { username, email, password, rePassword, tel } = this.registerForm.value;
+      this.authService.register(username, email, password, rePassword, tel || undefined).subscribe({
         next: (response) => {
           this.successMessage = 'Registration successful! You can now log in.';
           this.registerForm.reset();

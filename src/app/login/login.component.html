@@ -2,10 +2,10 @@
   <h1>Login</h1>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" formControlName="email" class="form-control">
-      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
-        Please enter a valid email.
+      <label for="username">Username:</label>
+      <input type="text" id="username" formControlName="username" class="form-control">
+      <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error">
+        Username must be at least 3 characters.
       </div>
     </div>
 
