@@ -123,6 +123,103 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+main {
+  min-height: calc(100vh - 260px);
+}
+
+.site-footer {
+  background: linear-gradient(135deg, #171717 0%, #232323 100%);
+  color: #d5dbe3;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 40px;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 44px 40px 28px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.footer-section h3 {
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+.footer-section h4 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.footer-section p {
+  margin: 0;
+  line-height: 1.7;
+  color: #b9c3cf;
+}
+
+.footer-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-section li {
+  margin-bottom: 8px;
+  color: #b9c3cf;
+}
+
+.footer-section a {
+  color: #b9c3cf;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-section a:hover {
+  color: #00c8ff;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 40px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #9aa7b6;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-socials a {
+  color: #c7d1dc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footer-socials a:hover {
+  color: #00c8ff;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 15px 20px;
@@ -179,5 +276,21 @@
     margin-left: 0;
     margin-top: 10px;
     width: 100%;
+  }
+
+  main {
+    min-height: calc(100vh - 220px);
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    padding: 32px 20px 20px;
+    gap: 22px;
+  }
+
+  .footer-bottom {
+    padding: 14px 20px 20px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
