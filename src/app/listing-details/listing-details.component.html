@@ -1,0 +1,62 @@
+<section class="details-shell" *ngIf="!isLoading; else loadingState">
+  <div class="details-card" *ngIf="listing; else errorState">
+    <p class="success-banner" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="error-banner" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <div class="details-topline">
+      <p class="details-type">{{ listing.type }} in {{ listing.city }}</p>
+      <div class="details-actions">
+        <a class="action-btn secondary" routerLink="/listings">Back to Listings</a>
+        <a class="action-btn" *ngIf="isOwner" [routerLink]="['/listings', listing.id, 'edit']">Edit</a>
+        <button class="action-btn danger" *ngIf="isOwner" type="button" (click)="onDelete()">Delete</button>
+      </div>
+    </div>
+
+    <h1>{{ listing.title }}</h1>
+
+    <img [src]="listing.imageUrl" [alt]="listing.title" class="details-image" (error)="onImageError($event)">
+
+    <div class="details-meta">
+      <div>
+        <span>Price</span>
+        <strong>{{ listing.price | number }} {{ listing.type === 'Rent' ? 'BGN / month' : 'BGN' }}</strong>
+      </div>
+      <div>
+        <span>Bedrooms</span>
+        <strong>{{ listing.bedrooms }}</strong>
+      </div>
+      <div>
+        <span>Bathrooms</span>
+        <strong>{{ listing.bathrooms }}</strong>
+      </div>
+      <div>
+        <span>Area</span>
+        <strong>{{ listing.areaSqm }} m²</strong>
+      </div>
+      <div>
+        <span>Owner</span>
+        <strong>{{ listing.ownerName }}</strong>
+      </div>
+    </div>
+
+    <div class="details-description">
+      <h2>Description</h2>
+      <p>{{ listing.description }}</p>
+    </div>
+  </div>
+
+  <ng-template #errorState>
+    <div class="details-card">
+      <p class="error-banner">{{ errorMessage || 'Listing not found.' }}</p>
+      <a class="action-btn secondary" routerLink="/listings">Back to Listings</a>
+    </div>
+  </ng-template>
+</section>
+
+<ng-template #loadingState>
+  <section class="details-shell">
+    <div class="details-card">
+      <p>Loading listing details...</p>
+    </div>
+  </section>
+</ng-template>

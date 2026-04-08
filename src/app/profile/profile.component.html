@@ -1,0 +1,122 @@
+<section class="profile-shell">
+  <div class="profile-card" *ngIf="!isLoading; else loadingState">
+    <div class="profile-intro">
+      <p class="eyebrow">Authenticated User Area</p>
+      <h1>Welcome back, {{ currentUser?.username || 'User' }}</h1>
+      <p>
+        Manage your account details here. This page is protected and available
+        only after login.
+      </p>
+    </div>
+
+    <div class="profile-overview">
+      <div class="overview-item">
+        <span>Status</span>
+        <strong>Logged In</strong>
+      </div>
+      <div class="overview-item">
+        <span>Email</span>
+        <strong>{{ currentUser?.email }}</strong>
+      </div>
+      <div class="overview-item">
+        <span>Phone</span>
+        <strong>{{ currentUser?.tel || 'Not provided' }}</strong>
+      </div>
+      <div class="overview-item">
+        <span>My Listings</span>
+        <strong>{{ myListings.length }}</strong>
+      </div>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" type="text" formControlName="username" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tel">Phone</label>
+        <input id="tel" type="tel" formControlName="tel" class="form-control">
+      </div>
+
+      <div *ngIf="errorMessage" class="status-message error-message">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="status-message success-message">{{ successMessage }}</div>
+
+      <button type="submit" class="save-btn" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : 'Save Changes' }}
+      </button>
+    </form>
+
+    <section class="my-listings-section">
+      <div class="my-listings-header">
+        <div>
+          <p class="eyebrow">Dashboard</p>
+          <h2>My Listings</h2>
+        </div>
+
+        <a routerLink="/listings/create" class="create-listing-btn">Create Listing</a>
+      </div>
+
+      <div class="my-listings-grid" *ngIf="myListings.length; else emptyListingsState">
+        <article class="my-listing-card" *ngFor="let listing of myListings">
+          <button type="button" class="my-listing-image-button" (click)="openImage(listing)">
+            <img [src]="listing.imageUrl" [alt]="listing.title" (error)="onImageError($event)">
+          </button>
+
+          <div class="my-listing-body">
+            <div class="my-listing-topline">
+              <span>{{ listing.type }}</span>
+              <span>{{ listing.city }}</span>
+            </div>
+
+            <h3>{{ listing.title }}</h3>
+            <p>{{ listing.description }}</p>
+
+            <div class="my-listing-stats">
+              <span>{{ listing.bedrooms }} bed</span>
+              <span>{{ listing.bathrooms }} bath</span>
+              <span>{{ listing.areaSqm }} m²</span>
+            </div>
+
+            <div class="my-listing-footer">
+              <strong>{{ listing.price | currency:'EUR':'symbol':'1.0-0' }}</strong>
+              <div class="my-listing-actions">
+                <a [routerLink]="['/listings', listing.id]">Details</a>
+                <a [routerLink]="['/listings', listing.id, 'edit']">Edit</a>
+                <button type="button" (click)="deleteListing(listing.id)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyListingsState>
+        <div class="empty-state">
+          <h3>No listings yet</h3>
+          <p>Create your first property listing to see it here.</p>
+        </div>
+      </ng-template>
+
+      <div class="image-modal" *ngIf="selectedImage" (click)="closeImage()">
+        <div class="image-modal-content" (click)="$event.stopPropagation()">
+          <button type="button" class="image-modal-close" (click)="closeImage()">Close</button>
+          <img [src]="selectedImage.url" [alt]="selectedImage.title" (error)="onImageError($event)">
+          <p>{{ selectedImage.title }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="profile-card loading-card">
+      <p>Loading profile...</p>
+    </div>
+  </ng-template>
+</section>

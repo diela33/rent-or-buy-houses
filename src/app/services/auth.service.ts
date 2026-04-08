@@ -1,30 +1,58 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { timeout } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
+export interface AuthUser {
+  _id?: string;
+  username: string;
+  email: string;
+  tel?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = 'https://localhost:3000/api';
+  private readonly apiUrl = environment.apiBaseUrl;
   private readonly authOptions = { withCredentials: true };
+  private readonly storageKey = 'rent-or-buy-user';
+  private currentUserValue: AuthUser | null = this.readStoredUser();
 
   constructor(private http: HttpClient) {}
 
-  register(username: string, email: string, password: string, rePassword: string, tel?: string): Observable<any> {
-    return this.http.post(
+  get currentUser(): AuthUser | null {
+    return this.currentUserValue;
+  }
+
+  get isAuthenticated(): boolean {
+    return this.currentUserValue !== null;
+  }
+
+  register(username: string, email: string, password: string, rePassword: string, tel?: string): Observable<AuthUser> {
+    return this.http.post<AuthUser>(
       `${this.apiUrl}/register`,
-      { username, email, password, rePassword, tel },
+      { username, email, password, repeatPassword: rePassword, tel },
       this.authOptions
+    ).pipe(
+      timeout(10000),
+      tap((user) => this.setCurrentUser(user))
     );
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password }, this.authOptions);
+  login(email: string, password: string): Observable<AuthUser> {
+    return this.http.post<AuthUser>(`${this.apiUrl}/login`, { email, password }, this.authOptions).pipe(
+      timeout(10000),
+      tap((user) => this.setCurrentUser(user))
+    );
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, this.authOptions);
+    return this.http.post(`${this.apiUrl}/logout`, {}, this.authOptions).pipe(
+      tap(() => this.clearCurrentUser())
+    );
   }
 
   getThemes(): Observable<any> {
@@ -59,11 +87,53 @@ export class AuthService {
     return this.http.put(`${this.apiUrl}/likes/${postId}`, {}, this.authOptions);
   }
 
-  getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/profile`, this.authOptions);
+  getUserProfile(): Observable<AuthUser> {
+    return this.http.get<AuthUser>(`${this.apiUrl}/users/profile`, this.authOptions).pipe(
+      tap((user) => this.setCurrentUser(user))
+    );
   }
 
-  updateUserProfile(username: string, email: string, tel?: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/users/profile`, { username, email, tel }, this.authOptions);
+  updateUserProfile(username: string, email: string, tel?: string): Observable<AuthUser> {
+    return this.http.put<AuthUser>(`${this.apiUrl}/users/profile`, { username, email, tel }, this.authOptions).pipe(
+      tap((user) => this.setCurrentUser(user))
+    );
+  }
+
+  restoreSession(): Observable<AuthUser> {
+    return this.getUserProfile();
+  }
+
+  clearSession(): void {
+    this.clearCurrentUser();
+  }
+
+  private setCurrentUser(user: AuthUser | null): void {
+    this.currentUserValue = user;
+
+    if (user) {
+      localStorage.setItem(this.storageKey, JSON.stringify(user));
+      return;
+    }
+
+    localStorage.removeItem(this.storageKey);
+  }
+
+  private clearCurrentUser(): void {
+    this.setCurrentUser(null);
+  }
+
+  private readStoredUser(): AuthUser | null {
+    const rawUser = localStorage.getItem(this.storageKey);
+
+    if (!rawUser) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawUser) as AuthUser;
+    } catch {
+      localStorage.removeItem(this.storageKey);
+      return null;
+    }
   }
 }

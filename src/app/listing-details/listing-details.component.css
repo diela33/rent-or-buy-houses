@@ -1,0 +1,140 @@
+.details-shell {
+  max-width: 1000px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.details-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 40px rgba(12, 26, 40, 0.12);
+}
+
+.details-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.details-type {
+  margin: 0;
+  color: #0088ad;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.details-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #00c8ff;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-btn.secondary {
+  background: #e8f4fa;
+  color: #0b5d75;
+}
+
+.action-btn.danger {
+  background: #ef5350;
+}
+
+.details-card h1 {
+  margin: 10px 0 18px;
+  color: #10202f;
+}
+
+.details-image {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 18px;
+  background: #f4f7fb;
+}
+
+.details-meta {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.details-meta div {
+  background: #f7fbff;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.details-meta span {
+  display: block;
+  color: #688094;
+  font-size: 0.85rem;
+}
+
+.details-meta strong {
+  display: block;
+  color: #10202f;
+  margin-top: 4px;
+}
+
+.details-description {
+  margin-top: 18px;
+}
+
+.details-description h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #10202f;
+}
+
+.details-description p {
+  margin: 0;
+  color: #334b5f;
+  line-height: 1.6;
+}
+
+.success-banner,
+.error-banner {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.success-banner {
+  background: #e9f8ef;
+  color: #1d7b40;
+}
+
+.error-banner {
+  background: #fdecec;
+  color: #ab2d2a;
+}
+
+@media (max-width: 768px) {
+  .details-shell {
+    margin: 22px auto;
+    padding: 0 14px;
+  }
+
+  .details-card {
+    padding: 16px;
+  }
+
+  .details-topline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

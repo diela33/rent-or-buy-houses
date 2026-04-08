@@ -1,0 +1,60 @@
+<section class="listings-shell">
+  <div class="listings-hero">
+    <div>
+      <p class="eyebrow">Property Catalog</p>
+      <h1>Browse homes for rent and sale</h1>
+      <p>
+        Explore the latest listings and compare options before making your next move.
+      </p>
+    </div>
+
+    <a class="create-link" *ngIf="authService.isAuthenticated" routerLink="/listings/create">
+      Create Listing
+    </a>
+  </div>
+
+  <div class="listings-grid">
+    <article class="listing-card" *ngFor="let listing of listings">
+      <button type="button" class="listing-image-button" (click)="openImage(listing)">
+        <img [src]="listing.imageUrl" [alt]="listing.title" class="listing-image" (error)="onImageError($event)">
+      </button>
+
+      <div class="listing-body">
+        <div class="listing-topline">
+          <span class="listing-type">{{ listing.type }}</span>
+          <span class="listing-city">{{ listing.city }}</span>
+        </div>
+
+        <h2>{{ listing.title }}</h2>
+        <p class="listing-description">{{ listing.description }}</p>
+
+        <div class="listing-meta">
+          <span>{{ listing.bedrooms }} bed</span>
+          <span>{{ listing.bathrooms }} bath</span>
+          <span>{{ listing.areaSqm }} m²</span>
+        </div>
+
+        <div class="listing-footer">
+          <div>
+            <strong>{{ listing.price | currency:'EUR':'symbol':'1.0-0' }}</strong>
+            <p>Listed by {{ listing.ownerName }}</p>
+          </div>
+
+          <div class="listing-actions">
+            <a [routerLink]="['/listings', listing.id]">Details</a>
+            <a *ngIf="isOwner(listing)" [routerLink]="['/listings', listing.id, 'edit']">Edit</a>
+            <button *ngIf="isOwner(listing)" type="button" (click)="onDelete(listing.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="image-modal" *ngIf="selectedImage" (click)="closeImage()">
+    <div class="image-modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="image-modal-close" (click)="closeImage()">Close</button>
+      <img [src]="selectedImage.url" [alt]="selectedImage.title" (error)="onImageError($event)">
+      <p>{{ selectedImage.title }}</p>
+    </div>
+  </div>
+</section>

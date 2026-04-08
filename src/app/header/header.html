@@ -1,16 +1,38 @@
 <nav class="navbar">
-  <a routerLink="/" class="logo">RentOrBuy</a>
+  <button type="button" class="logo" (click)="goTo('/')">RentOrBuy</button>
 
-  <ul class="nav-links" id="navLinks">
-    <li><a routerLink="/">Home</a></li>
-    <li><a routerLink="/calculator">Calculator</a></li>
-    <li><a routerLink="/about">About</a></li>
-    <li class="auth-buttons-mobile">
-      <button class="login-btn" routerLink="/login">Login</button>
+  <ul class="nav-links" [class.open]="isMenuOpen">
+    <li><button type="button" class="nav-link-btn" (click)="goTo('/')">Home</button></li>
+    <li><button type="button" class="nav-link-btn" (click)="goTo('/listings')">Listings</button></li>
+    <li><button type="button" class="nav-link-btn" (click)="goTo('/calculator')">Calculator</button></li>
+    <li><button type="button" class="nav-link-btn" (click)="goTo('/about')">About</button></li>
+
+    <li class="auth-buttons-mobile" *ngIf="!isAuthenticated">
+      <button type="button" class="nav-action secondary-action" (click)="goTo('/register')">Register</button>
+      <button type="button" class="login-btn" (click)="goTo('/login')">Login</button>
+    </li>
+
+    <li class="auth-buttons-mobile auth-user-mobile" *ngIf="isAuthenticated">
+      <span class="user-pill">{{ currentUserName }}</span>
+      <button type="button" class="nav-action secondary-action" (click)="goTo('/listings/create')">Create Listing</button>
+      <button type="button" class="nav-action secondary-action" (click)="goTo('/profile')">Profile</button>
+      <button type="button" class="logout-btn" (click)="logout()">Logout</button>
     </li>
   </ul>
 
-  <div class="menu-btn" onclick="toggleMenu()">
+  <div class="desktop-auth" *ngIf="!isAuthenticated">
+    <button type="button" class="nav-action secondary-action" (click)="goTo('/register')">Register</button>
+    <button type="button" class="login-btn" (click)="goTo('/login')">Login</button>
+  </div>
+
+  <div class="desktop-auth logged-in-actions" *ngIf="isAuthenticated">
+    <span class="user-pill">{{ currentUserName }}</span>
+    <button type="button" class="nav-action secondary-action" (click)="goTo('/listings/create')">Create Listing</button>
+    <button type="button" class="nav-action secondary-action" (click)="goTo('/profile')">Profile</button>
+    <button type="button" class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="menu-btn" (click)="toggleMenu()">
     ☰
   </div>
 </nav>
@@ -32,10 +54,10 @@
     <section class="footer-section">
       <h4>Quick Links</h4>
       <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/calculator">Calculator</a></li>
-        <li><a routerLink="/about">About</a></li>
-        <li><a routerLink="/register">Create Account</a></li>
+        <li><button type="button" class="footer-link-btn" (click)="goTo('/')">Home</button></li>
+        <li><button type="button" class="footer-link-btn" (click)="goTo('/calculator')">Calculator</button></li>
+        <li><button type="button" class="footer-link-btn" (click)="goTo('/about')">About</button></li>
+        <li><button type="button" class="footer-link-btn" (click)="goTo('/register')">Create Account</button></li>
       </ul>
     </section>
 
@@ -69,10 +91,3 @@
     </div>
   </div>
 </footer>
-
-<script>
-  function toggleMenu() {
-    const nav = document.getElementById('navLinks');
-    nav.classList.toggle('open');
-  }
-</script>

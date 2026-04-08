@@ -1,0 +1,77 @@
+<section class="editor-shell">
+  <div class="editor-card">
+    <div class="editor-header">
+      <p class="eyebrow">{{ isEditMode ? 'Edit Listing' : 'Create Listing' }}</p>
+      <h1>{{ isEditMode ? 'Update your property listing' : 'Publish a new property listing' }}</h1>
+      <p>Fill in the property details below. Only the owner can edit or delete a listing.</p>
+    </div>
+
+    <form [formGroup]="listingForm" (ngSubmit)="onSubmit()" class="editor-form" novalidate>
+      <div class="form-grid">
+        <div class="form-group wide-field">
+          <label for="title">Title</label>
+          <input id="title" type="text" formControlName="title" class="form-control">
+          <small class="field-error" *ngIf="hasError('title', 'required')">Title is required.</small>
+          <small class="field-error" *ngIf="hasError('title', 'minlength')">Title should be at least 5 characters.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input id="city" type="text" formControlName="city" class="form-control">
+          <small class="field-error" *ngIf="hasError('city', 'required')">City is required.</small>
+          <small class="field-error" *ngIf="hasError('city', 'minlength')">City should be at least 2 characters.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Listing Type</label>
+          <select id="type" formControlName="type" class="form-control">
+            <option *ngFor="let type of listingTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input id="price" type="number" formControlName="price" class="form-control">
+          <small class="field-error" *ngIf="hasError('price', 'required')">Price is required.</small>
+          <small class="field-error" *ngIf="hasError('price', 'min')">Price must be greater than 0.</small>
+        </div>
+
+        <div class="form-group wide-field">
+          <label for="imageUrl">Image URL</label>
+          <input id="imageUrl" type="text" formControlName="imageUrl" class="form-control" placeholder="https://... or /images/your-image.svg">
+        </div>
+
+        <div class="form-group">
+          <label for="bedrooms">Bedrooms</label>
+          <input id="bedrooms" type="number" formControlName="bedrooms" class="form-control">
+          <small class="field-error" *ngIf="hasError('bedrooms', 'min')">Bedrooms must be at least 1.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="bathrooms">Bathrooms</label>
+          <input id="bathrooms" type="number" formControlName="bathrooms" class="form-control">
+          <small class="field-error" *ngIf="hasError('bathrooms', 'min')">Bathrooms must be at least 1.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="areaSqm">Area (m²)</label>
+          <input id="areaSqm" type="number" formControlName="areaSqm" class="form-control">
+          <small class="field-error" *ngIf="hasError('areaSqm', 'min')">Area must be at least 10 m².</small>
+        </div>
+
+        <div class="form-group wide-field">
+          <label for="description">Description</label>
+          <textarea id="description" formControlName="description" rows="6" class="form-control"></textarea>
+          <small class="field-error" *ngIf="hasError('description', 'required')">Description is required.</small>
+          <small class="field-error" *ngIf="hasError('description', 'minlength')">Description should be at least 20 characters.</small>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Submitting...' : (isEditMode ? 'Save Listing' : 'Create Listing') }}
+      </button>
+    </form>
+  </div>
+</section>
