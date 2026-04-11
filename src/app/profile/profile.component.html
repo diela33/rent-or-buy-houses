@@ -1,5 +1,5 @@
 <section class="profile-shell">
-  <div class="profile-card" *ngIf="!isLoading; else loadingState">
+  <div class="profile-card">
     <div class="profile-intro">
       <p class="eyebrow">Authenticated User Area</p>
       <h1>Welcome back, {{ currentUser?.username || 'User' }}</h1>
@@ -113,10 +113,4 @@
       </div>
     </section>
   </div>
-
-  <ng-template #loadingState>
-    <div class="profile-card loading-card">
-      <p>Loading profile...</p>
-    </div>
-  </ng-template>
 </section>

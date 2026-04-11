@@ -13,7 +13,13 @@
     </a>
   </div>
 
-  <div class="listings-grid">
+  <p class="state-message" *ngIf="isLoading">Loading...</p>
+  <p class="state-message error" *ngIf="!isLoading && loadError">{{ loadError }}</p>
+  <p class="state-message empty" *ngIf="!isLoading && !loadError && listings.length === 0">
+    No listings available yet.
+  </p>
+
+  <div class="listings-grid" *ngIf="!isLoading && !loadError && listings.length > 0">
     <article class="listing-card" *ngFor="let listing of listings">
       <button type="button" class="listing-image-button" (click)="openImage(listing)">
         <img [src]="listing.imageUrl" [alt]="listing.title" class="listing-image" (error)="onImageError($event)">

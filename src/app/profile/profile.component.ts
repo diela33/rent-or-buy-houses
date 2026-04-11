@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { Listing, ListingsService } from '../services/listings.service';
 
@@ -39,25 +40,44 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getUserProfile().subscribe({
-      next: (user) => {
-        this.profileForm.patchValue({
-          username: user.username,
-          email: user.email,
-          tel: user.tel ?? ''
-        });
+    const cachedUser = this.authService.currentUser;
 
-        if (user._id) {
-          this.loadMyListings();
-        }
+    if (cachedUser) {
+      this.profileForm.patchValue({
+        username: cachedUser.username,
+        email: cachedUser.email,
+        tel: cachedUser.tel ?? ''
+      });
 
-        this.isLoading = false;
-      },
-      error: () => {
-        this.errorMessage = 'Unable to load your profile right now.';
-        this.isLoading = false;
+      this.isLoading = false;
+
+      if (cachedUser._id) {
+        this.loadMyListings();
       }
-    });
+    }
+
+    this.authService.getUserProfile()
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe({
+        next: (user) => {
+          this.profileForm.patchValue({
+            username: user.username,
+            email: user.email,
+            tel: user.tel ?? ''
+          });
+
+          if (user._id) {
+            this.loadMyListings();
+          }
+        },
+        error: () => {
+          if (!cachedUser) {
+            this.errorMessage = 'Unable to load your profile right now.';
+          }
+        }
+      });
   }
 
   onSubmit(): void {
@@ -116,8 +136,13 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadMyListings(): void {
-    this.listingsService.getMyListings().subscribe((listings) => {
-      this.myListings = listings;
+    this.listingsService.getMyListings().subscribe({
+      next: (listings) => {
+        this.myListings = listings;
+      },
+      error: () => {
+        this.myListings = [];
+      }
     });
   }
 }

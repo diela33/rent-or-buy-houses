@@ -10,6 +10,7 @@ import { ListingsComponent } from './listings/listings.component';
 import { ListingEditorComponent } from './listing-editor/listing-editor.component';
 import { listingOwnerGuard } from './listing-owner.guard';
 import { ListingDetailsComponent } from './listing-details/listing-details.component';
+import { guestGuard } from './guest.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,8 +20,8 @@ export const routes: Routes = [
   { path: 'listings/create', component: ListingEditorComponent, canActivate: [authGuard] },
   { path: 'listings/:id/edit', component: ListingEditorComponent, canActivate: [authGuard, listingOwnerGuard] },
   { path: 'listings/:id', component: ListingDetailsComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];

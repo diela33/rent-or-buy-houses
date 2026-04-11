@@ -29,6 +29,10 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]]
     });
+
+    if (this.authService.isAuthenticated) {
+      this.router.navigate(['/profile']);
+    }
   }
 
   onSubmit(): void {

@@ -23,12 +23,9 @@
   background: transparent;
   border: none;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
-.logo:hover {
-  transform: scale(1.05);
-  text-decoration: none;
-}
 
 .nav-links {
   list-style: none;
@@ -68,6 +65,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 .nav-links li a::before {
@@ -92,27 +90,6 @@
   transition: left 0.5s;
 }
 
-.nav-links li a:hover::before {
-  left: 100%;
-}
-
-.nav-link-btn:hover::before {
-  left: 100%;
-}
-
-.nav-links li a:hover {
-  color: #00c8ff;
-  background-color: rgba(0, 200, 255, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 200, 255, 0.3);
-}
-
-.nav-link-btn:hover {
-  color: #00c8ff;
-  background-color: rgba(0, 200, 255, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 200, 255, 0.3);
-}
 
 .active-link {
   color: #00c8ff !important;
@@ -134,6 +111,7 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
+  touch-action: manipulation;
 }
 
 .secondary-action {
@@ -142,11 +120,6 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-.secondary-action:hover {
-  color: #00c8ff;
-  border-color: rgba(0, 200, 255, 0.45);
-  text-decoration: none;
-}
 
 .login-btn {
   padding: 12px 24px;
@@ -160,6 +133,7 @@
   box-shadow: 0 4px 15px rgba(0, 200, 255, 0.4);
   position: relative;
   overflow: hidden;
+  touch-action: manipulation;
 }
 
 .login-btn::before {
@@ -173,15 +147,6 @@
   transition: left 0.5s;
 }
 
-.login-btn:hover::before {
-  left: 100%;
-}
-
-.login-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(0, 200, 255, 0.6);
-  background: linear-gradient(135deg, #0099c2 0%, #007a99 100%);
-}
 
 .logout-btn {
   padding: 12px 20px;
@@ -192,13 +157,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  touch-action: manipulation;
 }
 
-.logout-btn:hover {
-  color: #00c8ff;
-  border-color: rgba(0, 200, 255, 0.45);
-  box-shadow: 0 10px 24px rgba(0, 200, 255, 0.14);
-}
 
 .user-pill {
   display: inline-flex;
@@ -228,9 +189,6 @@
   transition: background-color 0.3s ease;
 }
 
-.menu-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
 
 main {
   min-height: calc(100vh - 260px);
@@ -303,15 +261,68 @@ main {
   cursor: pointer;
   padding: 0;
   font: inherit;
+  touch-action: manipulation;
 }
 
-.footer-section a:hover {
-  color: #00c8ff;
+@media (hover: hover) and (pointer: fine) {
+  .logo:hover {
+    transform: scale(1.05);
+    text-decoration: none;
+  }
+
+  .nav-links li a:hover::before {
+    left: 100%;
+  }
+
+  .nav-link-btn:hover::before {
+    left: 100%;
+  }
+
+  .nav-links li a:hover {
+    color: #00c8ff;
+    background-color: rgba(0, 200, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 200, 255, 0.3);
+  }
+
+  .nav-link-btn:hover {
+    color: #00c8ff;
+    background-color: rgba(0, 200, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 200, 255, 0.3);
+  }
+
+  .secondary-action:hover {
+    color: #00c8ff;
+    border-color: rgba(0, 200, 255, 0.45);
+    text-decoration: none;
+  }
+
+  .login-btn:hover::before {
+    left: 100%;
+  }
+
+  .login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 200, 255, 0.6);
+    background: linear-gradient(135deg, #0099c2 0%, #007a99 100%);
+  }
+
+  .logout-btn:hover {
+    color: #00c8ff;
+    border-color: rgba(0, 200, 255, 0.45);
+    box-shadow: 0 10px 24px rgba(0, 200, 255, 0.14);
+  }
+
+  .footer-section a:hover {
+    color: #00c8ff;
+  }
+
+  .footer-link-btn:hover {
+    color: #00c8ff;
+  }
 }
 
-.footer-link-btn:hover {
-  color: #00c8ff;
-}
 
 .footer-bottom {
   max-width: 1200px;
@@ -343,9 +354,6 @@ main {
   transition: color 0.2s ease;
 }
 
-.footer-socials a:hover {
-  color: #00c8ff;
-}
 
 @media (max-width: 768px) {
   .navbar {

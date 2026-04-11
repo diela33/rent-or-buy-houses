@@ -42,6 +42,25 @@
   font-weight: 600;
 }
 
+.state-message {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #eef7fb;
+  color: #28455c;
+  font-weight: 600;
+}
+
+.state-message.error {
+  background: #ffecec;
+  color: #9f2f2f;
+}
+
+.state-message.empty {
+  background: #f5f8fb;
+  color: #4a6074;
+}
+
 .listings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));

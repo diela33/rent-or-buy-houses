@@ -33,6 +33,10 @@ export class RegisterComponent {
       rePassword: ['', [Validators.required]],
       tel: ['']
     }, { validators: this.passwordMatchValidator() });
+
+    if (this.authService.isAuthenticated) {
+      this.router.navigate(['/profile']);
+    }
   }
 
   passwordMatchValidator(): ValidatorFn {

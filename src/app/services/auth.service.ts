@@ -89,12 +89,14 @@ export class AuthService {
 
   getUserProfile(): Observable<AuthUser> {
     return this.http.get<AuthUser>(`${this.apiUrl}/users/profile`, this.authOptions).pipe(
+      timeout(10000),
       tap((user) => this.setCurrentUser(user))
     );
   }
 
   updateUserProfile(username: string, email: string, tel?: string): Observable<AuthUser> {
     return this.http.put<AuthUser>(`${this.apiUrl}/users/profile`, { username, email, tel }, this.authOptions).pipe(
+      timeout(10000),
       tap((user) => this.setCurrentUser(user))
     );
   }
