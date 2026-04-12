@@ -30,6 +30,21 @@
   color: #5a6d80;
 }
 
+.active-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  color: #28455c;
+  font-weight: 600;
+}
+
+.clear-filter-link {
+  color: #007b9a;
+  text-decoration: none;
+  font-weight: 700;
+}
+
 .create-link {
   display: inline-flex;
   align-items: center;
@@ -51,6 +66,14 @@
   font-weight: 600;
 }
 
+.state-message.loading,
+.state-message.error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .state-message.error {
   background: #ffecec;
   color: #9f2f2f;
@@ -59,6 +82,17 @@
 .state-message.empty {
   background: #f5f8fb;
   color: #4a6074;
+}
+
+.retry-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: rgba(0, 200, 255, 0.12);
+  color: #007b9a;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .listings-grid {

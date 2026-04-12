@@ -6,6 +6,10 @@
       <p>
         Explore the latest listings and compare options before making your next move.
       </p>
+      <div class="active-filter" *ngIf="activeTypeFilter">
+        <span>Showing: {{ activeTypeFilter }}</span>
+        <a routerLink="/listings" class="clear-filter-link" (click)="clearTypeFilter()">Show all</a>
+      </div>
     </div>
 
     <a class="create-link" *ngIf="authService.isAuthenticated" routerLink="/listings/create">
@@ -13,10 +17,16 @@
     </a>
   </div>
 
-  <p class="state-message" *ngIf="isLoading">Loading...</p>
-  <p class="state-message error" *ngIf="!isLoading && loadError">{{ loadError }}</p>
+  <div class="state-message loading" *ngIf="isLoading">
+    <span>Loading...</span>
+    <button type="button" class="retry-btn" (click)="retryLoad()">Try again</button>
+  </div>
+  <div class="state-message error" *ngIf="!isLoading && loadError">
+    <span>{{ loadError }}</span>
+    <button type="button" class="retry-btn" (click)="retryLoad()">Try again</button>
+  </div>
   <p class="state-message empty" *ngIf="!isLoading && !loadError && listings.length === 0">
-    No listings available yet.
+    {{ activeTypeFilter ? 'No ' + activeTypeFilter.toLowerCase() + ' listings available yet.' : 'No listings available yet.' }}
   </p>
 
   <div class="listings-grid" *ngIf="!isLoading && !loadError && listings.length > 0">
@@ -47,7 +57,7 @@
           </div>
 
           <div class="listing-actions">
-            <a [routerLink]="['/listings', listing.id]">Details</a>
+            <a href="" (click)="goToDetails(listing, $event)">Details</a>
             <a *ngIf="isOwner(listing)" [routerLink]="['/listings', listing.id, 'edit']">Edit</a>
             <button *ngIf="isOwner(listing)" type="button" (click)="onDelete(listing.id)">Delete</button>
           </div>

@@ -61,6 +61,10 @@
   overflow: hidden;
 }
 
+.hero-image-link {
+  display: block;
+}
+
 .hero-image {
   width: 100%;
   height: 220px;
@@ -104,17 +108,40 @@
   color: #0b84a5;
 }
 
-.latest-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+.latest-carousel {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.latest-track {
+  display: flex;
   gap: 16px;
+  width: max-content;
+  animation: auto-scroll-right 20s linear infinite;
+}
+
+.latest-track:hover {
+  animation-play-state: paused;
 }
 
 .listing-card {
+  flex: 0 0 clamp(280px, 30vw, 360px);
   border-radius: 20px;
   border: 1px solid #d5e4ef;
   background: #fff;
   overflow: hidden;
+}
+
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .clickable-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 34px rgba(11, 27, 46, 0.16);
+  }
 }
 
 .listing-image {
@@ -187,13 +214,19 @@
   color: #aa2f40;
 }
 
+@keyframes auto-scroll-right {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (min-width: 900px) {
   .home-hero {
     grid-template-columns: 1.1fr 1fr;
     align-items: stretch;
-  }
-
-  .latest-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
+import { retry } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export type ListingType = 'Rent' | 'Buy';
@@ -49,15 +50,23 @@ export class ListingsService {
   }
 
   getListings(): Observable<Listing[]> {
-    return this.http.get<Listing[]>(this.apiUrl, this.authOptions);
+    return this.http.get<Listing[]>(this.apiUrl, this.authOptions).pipe(
+      timeout(5000),
+      retry(1)
+    );
   }
 
   getListingById(id: string): Observable<Listing> {
-    return this.http.get<Listing>(`${this.apiUrl}/${id}`, this.authOptions);
+    return this.http.get<Listing>(`${this.apiUrl}/${id}`, this.authOptions).pipe(
+      timeout(5000)
+    );
   }
 
   getMyListings(): Observable<Listing[]> {
-    return this.http.get<Listing[]>(`${this.apiUrl}/mine`, this.authOptions);
+    return this.http.get<Listing[]>(`${this.apiUrl}/mine`, this.authOptions).pipe(
+      timeout(5000),
+      retry(1)
+    );
   }
 
   createListing(input: ListingInput): Observable<Listing> {

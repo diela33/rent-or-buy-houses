@@ -1,48 +1,67 @@
 <section class="home-hero">
-	<div class="hero-copy">
-		<p class="eyebrow">Real Estate Hub</p>
-		<h1>Find the right home to buy or rent</h1>
-		<p>Browse fresh property publications from real users and decide faster with clear information.</p>
-		<a routerLink="/listings" class="primary-link">Explore Listings</a>
-	</div>
+        <div class="hero-copy">
+                <p class="eyebrow">Real Estate Hub</p>
+                <h1>Find the right home to buy or rent</h1>
+                <p>Browse fresh property publications from real users and decide faster with clear information.</p>
+                <a routerLink="/listings" class="primary-link">Explore Listings</a>
+        </div>
 
-	<div class="hero-cards">
-		<article class="hero-card">
-			<img src="/images/house-buy.svg" alt="Property for sale" class="hero-image">
-			<h3>Properties for Sale</h3>
-			<p>Find homes, villas, and apartments available for purchase.</p>
-		</article>
+        <div class="hero-cards">
+                <article class="hero-card">
+                        <a [routerLink]="['/listings']" [queryParams]="{ type: 'Buy' }" class="hero-image-link">
+                                <img src="/images/house-bay.jpg" alt="Property for sale" class="hero-image">
+                        </a>
+                        <h3>Properties for Sale</h3>
+                        <p>Find homes, villas, and apartments available for purchase.</p>
+                </article>
 
-		<article class="hero-card">
-			<img src="/images/house-rent.svg" alt="Property for rent" class="hero-image">
-			<h3>Properties for Rent</h3>
-			<p>Discover rental homes with flexible locations and budgets.</p>
-		</article>
-	</div>
+                <article class="hero-card">
+                        <a [routerLink]="['/listings']" [queryParams]="{ type: 'Rent' }" class="hero-image-link">
+                                <img src="/images/house-rent.jpg" alt="Property for rent" class="hero-image">
+                        </a>
+                        <h3>Properties for Rent</h3>
+                        <p>Discover rental homes with flexible locations and budgets.</p>
+                </article>
+        </div>
 </section>
 
 <section class="latest-section">
-	<div class="latest-header">
-		<h2>Latest Publications</h2>
-		<a routerLink="/listings" class="secondary-link">View All</a>
-	</div>
+        <div class="latest-header">
+                <h2>Latest Publications</h2>
+                <a routerLink="/listings" class="secondary-link">View All</a>
+        </div>
 
-	<p *ngIf="isLoading" class="state-message">Loading latest publications...</p>
-	<p *ngIf="!isLoading && loadError" class="state-message error">{{ loadError }}</p>
-	<p *ngIf="!isLoading && !loadError && latestListings.length === 0" class="state-message">No listings yet. Be the first to publish one.</p>
+        <p *ngIf="isLoading" class="state-message">Loading latest publications...</p>
+        <p *ngIf="!isLoading && loadError" class="state-message error">{{ loadError }}</p>
+        <p *ngIf="!isLoading && !loadError && latestListings.length === 0" class="state-message">No listings yet. Be the first to publish one.</p>
 
-	<div class="latest-grid" *ngIf="!isLoading && !loadError && latestListings.length > 0">
-		<article class="listing-card" *ngFor="let listing of latestListings">
-			<img [src]="listing.imageUrl" [alt]="listing.title" class="listing-image" (error)="onImageError($event)">
-			<div class="listing-body">
-				<p class="listing-meta">{{ listing.type }} • {{ listing.city }}</p>
-				<h3><a [routerLink]="['/listings', listing.id]" class="listing-title-link">{{ listing.title }}</a></h3>
-				<p class="listing-description">{{ listing.description }}</p>
-				<div class="listing-footer">
-					<span class="listing-price">{{ listing.price | number }} {{ listing.type === 'Rent' ? 'BGN / month' : 'BGN' }}</span>
-					<a [routerLink]="['/listings', listing.id]" class="listing-owner">View Details</a>
-				</div>
-			</div>
-		</article>
-	</div>
+        <div class="latest-carousel" *ngIf="!isLoading && !loadError && latestListings.length > 0">
+                <div class="latest-track">
+                        <article class="listing-card clickable-card" *ngFor="let listing of latestListings" (click)="openListingDetails(listing)">
+                                <img [src]="listing.imageUrl" [alt]="listing.title" class="listing-image" (error)="onImageError($event)">
+                                <div class="listing-body">
+                                        <p class="listing-meta">{{ listing.type }} &bull; {{ listing.city }}</p>
+                                        <h3>{{ listing.title }}</h3>
+                                        <p class="listing-description">{{ listing.description }}</p>
+                                        <div class="listing-footer">
+                                                <span class="listing-price">{{ listing.price | number }} {{ listing.type === 'Rent' ? 'BGN / month' : 'BGN' }}</span>
+                                                <span class="listing-owner">View Details</span>
+                                        </div>
+                                </div>
+                        </article>
+
+                        <article class="listing-card clickable-card" *ngFor="let listing of latestListings" aria-hidden="true" (click)="openListingDetails(listing)">
+                                <img [src]="listing.imageUrl" [alt]="listing.title" class="listing-image" (error)="onImageError($event)">
+                                <div class="listing-body">
+                                        <p class="listing-meta">{{ listing.type }} &bull; {{ listing.city }}</p>
+                                        <h3>{{ listing.title }}</h3>
+                                        <p class="listing-description">{{ listing.description }}</p>
+                                        <div class="listing-footer">
+                                                <span class="listing-price">{{ listing.price | number }} {{ listing.type === 'Rent' ? 'BGN / month' : 'BGN' }}</span>
+                                                <span class="listing-owner">View Details</span>
+                                        </div>
+                                </div>
+                        </article>
+                </div>
+        </div>
 </section>

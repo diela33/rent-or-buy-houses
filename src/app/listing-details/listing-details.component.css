@@ -123,6 +123,10 @@
   color: #ab2d2a;
 }
 
+.loading-actions {
+  margin-top: 12px;
+}
+
 @media (max-width: 768px) {
   .details-shell {
     margin: 22px auto;
