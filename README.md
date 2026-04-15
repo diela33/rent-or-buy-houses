@@ -9,7 +9,7 @@ Use these exact steps after cloning from GitHub.
 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/diela33/rent-or-buy-houses.git
 cd Angular-Project-2026
 ```
 
