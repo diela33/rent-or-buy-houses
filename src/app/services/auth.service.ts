@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 
 export interface AuthUser {
   _id?: string;
+  id?: string;
   username: string;
   email: string;
   tel?: string;
@@ -29,6 +30,10 @@ export class AuthService {
 
   get isAuthenticated(): boolean {
     return this.currentUserValue !== null;
+  }
+
+  get currentUserId(): string | null {
+    return this.currentUserValue?._id || this.currentUserValue?.id || null;
   }
 
   register(username: string, email: string, password: string, rePassword: string, tel?: string): Observable<AuthUser> {
@@ -110,10 +115,11 @@ export class AuthService {
   }
 
   private setCurrentUser(user: AuthUser | null): void {
-    this.currentUserValue = user;
+    const normalizedUser = this.normalizeUser(user);
+    this.currentUserValue = normalizedUser;
 
-    if (user) {
-      localStorage.setItem(this.storageKey, JSON.stringify(user));
+    if (normalizedUser) {
+      localStorage.setItem(this.storageKey, JSON.stringify(normalizedUser));
       return;
     }
 
@@ -132,10 +138,23 @@ export class AuthService {
     }
 
     try {
-      return JSON.parse(rawUser) as AuthUser;
+      return this.normalizeUser(JSON.parse(rawUser) as AuthUser);
     } catch {
       localStorage.removeItem(this.storageKey);
       return null;
     }
+  }
+
+  private normalizeUser(user: AuthUser | null): AuthUser | null {
+    if (!user) {
+      return null;
+    }
+
+    const normalizedId = user._id || user.id;
+    return {
+      ...user,
+      _id: normalizedId,
+      id: normalizedId
+    };
   }
 }

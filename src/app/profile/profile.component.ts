@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { catchError, forkJoin, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { Listing, ListingsService } from '../services/listings.service';
@@ -51,9 +52,7 @@ export class ProfileComponent implements OnInit {
 
       this.isLoading = false;
 
-      if (cachedUser._id) {
-        this.loadMyListings();
-      }
+      this.loadMyListings();
     }
 
     this.authService.getUserProfile()
@@ -68,9 +67,7 @@ export class ProfileComponent implements OnInit {
             tel: user.tel ?? ''
           });
 
-          if (user._id) {
-            this.loadMyListings();
-          }
+          this.loadMyListings();
         },
         error: () => {
           if (!cachedUser) {
@@ -105,7 +102,7 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteListing(listingId: string): void {
-    if (!this.authService.currentUser?._id) {
+    if (!this.authService.currentUserId) {
       this.router.navigate(['/login']);
       return;
     }
@@ -136,9 +133,37 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadMyListings(): void {
-    this.listingsService.getMyListings().subscribe({
-      next: (listings) => {
-        this.myListings = listings;
+    const currentUserId = this.authService.currentUserId;
+    const authUsername = (this.authService.currentUser?.username || '').trim().toLowerCase();
+    const formUsername = String(this.profileForm.get('username')?.value || '').trim().toLowerCase();
+    const currentUsername = authUsername || formUsername;
+
+    if (!currentUserId && !currentUsername) {
+      this.myListings = [];
+      return;
+    }
+
+    forkJoin({
+      mine: this.listingsService.getMyListings().pipe(catchError(() => of([] as Listing[]))),
+      all: this.listingsService.getListings().pipe(catchError(() => of([] as Listing[])))
+    }).subscribe({
+      next: ({ mine, all }) => {
+        const fromMine = Array.isArray(mine) ? mine : [];
+        const fromAll = (Array.isArray(all) ? all : []).filter((listing) => {
+          const listingOwnerName = (listing.ownerName || '').trim().toLowerCase();
+          return listing.ownerId === currentUserId ||
+            (currentUsername.length > 0 && listingOwnerName === currentUsername);
+        });
+
+        const uniqueById = new Map<string, Listing>();
+        [...fromMine, ...fromAll].forEach((listing) => {
+          if (listing?.id) {
+            uniqueById.set(listing.id, listing);
+          }
+        });
+
+        const resolvedListings = Array.from(uniqueById.values());
+        this.myListings = resolvedListings.length > 0 ? resolvedListings : fromAll;
       },
       error: () => {
         this.myListings = [];

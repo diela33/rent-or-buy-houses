@@ -132,9 +132,13 @@ export class ListingsComponent implements OnInit, OnDestroy {
   }
 
   private applyFilters(): void {
-    this.listings = this.activeTypeFilter
-      ? this.allListings.filter((listing) => listing.type === this.activeTypeFilter)
-      : this.allListings;
+    if (!this.activeTypeFilter) {
+      this.listings = this.allListings;
+      return;
+    }
+
+    const filtered = this.allListings.filter((listing) => listing.type === this.activeTypeFilter);
+    this.listings = filtered.length > 0 ? filtered : this.allListings;
   }
 
   private getTypeFilterFromRoute(): ListingType | null {
