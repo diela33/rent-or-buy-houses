@@ -24,10 +24,15 @@ npm install
 ```bash
 npm start
 ```
+Backend (from Rest-api):
+
+```bash
+npm start
 
 4. Open the application
 
 http://localhost:4200
+
 
 Notes:
 
