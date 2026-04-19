@@ -10,7 +10,7 @@ Use these exact steps after cloning from GitHub.
 
 ```bash
 git clone https://github.com/diela33/rent-or-buy-houses.git
-cd Angular-Project-2026
+cd rent-or-buy-houses
 ```
 
 2. Install dependencies
