@@ -1,2 +1,183 @@
-<h1>Calculator</h1>
-<p>Use this calculator to compare renting vs buying.</p>
+<div class="calculator-container">
+  <div class="calculator-header">
+    <h1>🏠 Rent vs Buy Calculator</h1>
+    <p>Compare your financial options for renting or buying a property</p>
+  </div>
+
+  <div class="calculator-content">
+    <!-- Input Form -->
+    <div class="input-section">
+      <h2>Enter Your Details</h2>
+
+      <div class="form-group">
+        <label for="monthlyRent">Monthly Rent Amount (€)</label>
+        <input
+          type="number"
+          id="monthlyRent"
+          [(ngModel)]="monthlyRent"
+          (change)="calculate()"
+          min="0"
+          step="50"
+        >
+        <div class="info-text">How much would you pay to rent per month?</div>
+      </div>
+
+      <div class="form-group">
+        <label for="propertyPrice">Property Purchase Price (€)</label>
+        <input
+          type="number"
+          id="propertyPrice"
+          [(ngModel)]="propertyPrice"
+          (change)="calculate()"
+          min="0"
+          step="10000"
+        >
+        <div class="info-text">The total price of the property you want to buy</div>
+      </div>
+
+      <div class="form-group">
+        <label for="downPayment">Down Payment (%)</label>
+        <input
+          type="number"
+          id="downPayment"
+          [(ngModel)]="downPaymentPercent"
+          (change)="calculate()"
+          min="0"
+          max="100"
+          step="1"
+        >
+        <div class="info-text">Percentage of property price you'll pay upfront</div>
+        <div class="down-payment-display">
+          Down Payment Amount: <strong>{{ formatCurrency(downPaymentAmount) }}</strong>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="interestRate">Mortgage Interest Rate (%)</label>
+        <input
+          type="number"
+          id="interestRate"
+          [(ngModel)]="interestRate"
+          (change)="calculate()"
+          min="0"
+          max="20"
+          step="0.1"
+        >
+        <div class="info-text">Annual mortgage interest rate</div>
+      </div>
+
+      <div class="form-group">
+        <label for="loanTerm">Loan Term (Years)</label>
+        <input
+          type="number"
+          id="loanTerm"
+          [(ngModel)]="loanTermYears"
+          (change)="calculate()"
+          min="1"
+          max="50"
+          step="1"
+        >
+        <div class="info-text">How many years to pay off the mortgage</div>
+      </div>
+
+      <button class="reset-btn" (click)="reset()">Reset to Defaults</button>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section">
+      <h2>Comparison Results</h2>
+
+      <!-- Recommendation Card -->
+      <div class="recommendation-card" [class.buy-better]="isBuyingBetter()" [class.rent-better]="!isBuyingBetter()">
+        <div class="recommendation-icon">{{ isBuyingBetter() ? '🏡' : '🔑' }}</div>
+        <div class="recommendation-text">
+          <strong>{{ isBuyingBetter() ? 'Buying is Better!' : 'Renting is Better!' }}</strong>
+          <p>{{ getRentingAdvantage() }}</p>
+        </div>
+      </div>
+
+      <!-- Monthly Comparison -->
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>💰 Monthly Payment</h3>
+          <div class="comparison-row">
+            <span>Rent:</span>
+            <strong class="amount">{{ formatCurrency(monthlyRent) }}/month</strong>
+          </div>
+          <div class="comparison-row">
+            <span>Mortgage:</span>
+            <strong class="amount">{{ formatCurrency(monthlyMortgage) }}/month</strong>
+          </div>
+          <div class="comparison-row difference" [class.save]="monthlyMortgage < monthlyRent">
+            <span>Difference:</span>
+            <strong>{{ monthlyMortgage < monthlyRent ? '−' : '+' }}{{ formatCurrency(getAbsoluteValue(monthlyMortgage - monthlyRent)) }}</strong>
+          </div>
+        </div>
+
+        <div class="comparison-card">
+          <h3>💵 Total Cost (30 Years)</h3>
+          <div class="comparison-row">
+            <span>Total Rent:</span>
+            <strong class="amount">{{ formatCurrency(totalRentCost) }}</strong>
+          </div>
+          <div class="comparison-row">
+            <span>Total Buy:</span>
+            <strong class="amount">{{ formatCurrency(totalBuyCost) }}</strong>
+          </div>
+          <div class="comparison-row difference" [class.save]="totalBuyCost < totalRentCost">
+            <span>Difference:</span>
+            <strong>{{ totalBuyCost < totalRentCost ? '−' : '+' }}{{ formatCurrency(getAbsoluteValue(totalBuyCost - totalRentCost)) }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Break-even Analysis -->
+      <div class="breakeven-card" *ngIf="isBuyingBetter() && breakEvenMonths > 0">
+        <h3>⏱️ Break-Even Analysis</h3>
+        <p>You'll break even (owning becomes cheaper) in:</p>
+        <div class="breakeven-result">
+          <span class="breakeven-value">{{ breakEvenYears }} years</span>
+          <span class="breakeven-detail">and {{ breakEvenMonths % 12 }} months</span>
+        </div>
+        <p class="breakeven-info">After this point, buying becomes financially advantageous</p>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="details-card">
+        <h3>📊 Loan Details</h3>
+        <div class="detail-row">
+          <span>Property Price:</span>
+          <strong>{{ formatCurrency(propertyPrice) }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Down Payment:</span>
+          <strong>{{ formatCurrency(downPaymentAmount) }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Loan Amount:</span>
+          <strong>{{ formatCurrency(mortgageAmount) }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Interest Rate:</span>
+          <strong>{{ interestRate }}% annually</strong>
+        </div>
+        <div class="detail-row">
+          <span>Loan Term:</span>
+          <strong>{{ loanTermYears }} years</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Information Tips -->
+  <div class="tips-section">
+    <h3>💡 Tips for Using the Calculator</h3>
+    <ul>
+      <li><strong>Monthly Rent:</strong> Use your current or expected monthly rental cost</li>
+      <li><strong>Down Payment:</strong> Typically 15-20%, but can be as low as 3-5%</li>
+      <li><strong>Interest Rate:</strong> Check current mortgage rates in your area (5-7% typical)</li>
+      <li><strong>Loan Term:</strong> 30-year mortgages are most common in Europe</li>
+      <li><strong>Not Included:</strong> Property taxes, insurance, maintenance, HOA fees (for buying)</li>
+    </ul>
+  </div>
+</div>

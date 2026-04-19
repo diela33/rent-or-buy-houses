@@ -1,2 +1,180 @@
-<h1>About Us</h1>
-<p>Learn more about our rent or buy calculator.</p>
+<div class="about-container">
+  <!-- Header Section -->
+  <div class="about-header">
+    <h1>About RentOrBuyHouses</h1>
+    <p class="tagline">Making real estate decisions simple and transparent</p>
+  </div>
+
+  <!-- Mission Section -->
+  <section class="section mission-section">
+    <div class="section-content">
+      <h2>Our Mission</h2>
+      <p>
+        RentOrBuyHouses is designed to empower individuals to make informed financial decisions about
+        their housing options. Whether you're considering renting or buying, our platform provides the
+        tools and information needed to evaluate both choices objectively.
+      </p>
+      <p>
+        We believe that everyone deserves access to transparent, easy-to-use real estate solutions.
+        Our goal is to bridge the gap between property seekers and property owners, creating a community
+        where everyone can find or list properties with confidence.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section features-section">
+    <h2>What We Offer</h2>
+    <div class="features-grid">
+      <div *ngFor="let feature of features" class="feature-card">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Browse or List</h3>
+        <p>Search for properties to rent or buy, or create your own listings</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Get Details</h3>
+        <p>View comprehensive information about each property</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Compare Options</h3>
+        <p>Use our calculator to analyze rent vs. buy scenarios</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Decide</h3>
+        <p>Make confident decisions based on data and analysis</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Stack -->
+  <section class="section tech-section">
+    <h2>Built With Modern Technology</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <h4>Frontend</h4>
+        <ul>
+          <li>Angular 19+</li>
+          <li>TypeScript</li>
+          <li>RxJS</li>
+          <li>Modern CSS3</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <h4>Backend</h4>
+        <ul>
+          <li>Node.js</li>
+          <li>Express.js</li>
+          <li>MongoDB</li>
+          <li>JWT Authentication</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <h4>Features</h4>
+        <ul>
+          <li>Real-time Updates</li>
+          <li>Secure Authentication</li>
+          <li>Responsive Design</li>
+          <li>Advanced Calculations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="section values-section">
+    <h2>Our Values</h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <h3>🎯 Transparency</h3>
+        <p>We believe in clear, honest information that helps users make better decisions</p>
+      </div>
+      <div class="value-item">
+        <h3>🤝 Community</h3>
+        <p>We foster a community where buyers, renters, and sellers can connect</p>
+      </div>
+      <div class="value-item">
+        <h3>💡 Innovation</h3>
+        <p>We continuously improve our tools to serve users better</p>
+      </div>
+      <div class="value-item">
+        <h3>✅ Reliability</h3>
+        <p>You can trust our platform to work when you need it</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section contact-section">
+    <h2>Get In Touch</h2>
+    <div class="contact-content">
+      <p>Have questions or feedback about RentOrBuyHouses?</p>
+      <div class="contact-info">
+        <p><strong>Email:</strong> info@rentorbuyhouses.com</p>
+        <p><strong>Support:</strong> support@rentorbuyhouses.com</p>
+        <p><strong>Phone:</strong> +1 (800) 123-4567</p>
+      </div>
+      <p class="contact-note">
+        We'd love to hear from you! Send us your suggestions, bug reports, or general feedback.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <h3>Is RentOrBuyHouses free to use?</h3>
+        <p>Yes! Browsing listings and using the calculator is completely free. Property owners pay only when they want to create premium listings.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How accurate is the calculator?</h3>
+        <p>Our calculator uses standard financial formulas for mortgage calculations. However, it doesn't include taxes, insurance, or maintenance costs, which can vary by location.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is my personal information safe?</h3>
+        <p>Yes. We use industry-standard encryption and secure authentication methods to protect your data.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I list a property?</h3>
+        <p>Create an account, log in, and click "Create Listing" to add your property. You can edit or delete it anytime.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I filter listings by location?</h3>
+        <p>Yes! You can filter by city, property type (rent/buy), price range, and other criteria in our listing catalog.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What should I know about using this calculator?</h3>
+        <p>The calculator provides estimates based on the inputs you provide. Actual mortgage payments may vary based on current market rates and your credit profile.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="section cta-section">
+    <h2>Ready to Make a Decision?</h2>
+    <p>Explore our listings, use our calculator, and find your perfect property or investment opportunity.</p>
+    <div class="cta-buttons">
+      <a routerLink="/listings" class="btn btn-primary">Browse Listings</a>
+      <a routerLink="/calculator" class="btn btn-secondary">Use Calculator</a>
+    </div>
+  </section>
+</div>
